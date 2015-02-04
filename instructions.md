@@ -1,3 +1,10 @@
+Possible errors & their solutions
+
+	https://greatwebist.wordpress.com/2015/02/04/grunt-js-injector-error-for-generator-angularjs-cordova/
+
+	
+	----------------------------------------------------------------------------------
+	
 https://www.npmjs.com/package/generator-angularjs-cordova
 # AngularJS Cordova generator
 [![Build Status](https://travis-ci.org/keshavos/generator-angularjs-cordova.svg)](https://travis-ci.org/keshavos/generator-angularjs-cordova)
