@@ -192,6 +192,7 @@ module.exports = function(grunt) {
         //Injects all the scripts into the index html file
         injector: {
             options: {
+				lineEnding: grunt.util.linefeed,
                 addRootSlash: false,
                 ignorePath: 'app/',
                 bowerPrefix: 'bower',
