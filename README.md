@@ -1,7 +1,15 @@
-
-
+	----------------------------------------------------------------------------------	
+v0.0.5
+	divided mobile-angularUi in modules
+	still persisting error of left side menu not working
+	
+	----------------------------------------------------------------------------------
+v0.0.4
+	left side menu require some manual fix
+	
+	----------------------------------------------------------------------------------
 v0.0.3
-
+	Implementation of mobile-angularUi  
 	----------------------------------------------------------------------------------
 v0.0.2	 + android
 Possible errors & their solutions
