@@ -13,3 +13,5 @@ node_modules/
 
 ##########iOS##########
 platforms/ios/cordova/console.log
+/nbproject/private/
+/app/nbproject/private/

@@ -15,17 +15,9 @@ module.exports = function(config) {
         files: [
             <!-- injector:bowerjs -->
             'app/lib/jquery/dist/jquery.js',
-            'app/lib/bootstrap/dist/js/bootstrap.js',
             'app/lib/angular/angular.js',
-            'app/lib/angular-resource/angular-resource.js',
-            'app/lib/angular-mocks/angular-mocks.js',
-            'app/lib/angular-cookies/angular-cookies.js',
-            'app/lib/angular-animate/angular-animate.js',
-            'app/lib/angular-touch/angular-touch.js',
-            'app/lib/angular-sanitize/angular-sanitize.js',
-            'app/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-            'app/lib/angular-ui-utils/ui-utils.js',
-            'app/lib/angular-ui-router/release/angular-ui-router.js',
+            'app/lib/angular-route/angular-route.js',
+            'app/lib/mobile-angular-ui/dist/js/mobile-angular-ui.min.js',
             <!-- endinjector -->
 
             'app/js/config.js',
@@ -67,7 +59,8 @@ module.exports = function(config) {
         // - Safari (only Mac)
         // - PhantomJS
         // - IE (only Windows)
-        browsers: ['PhantomJS'],
+        // browsers: ['PhantomJS'],
+        browsers: ['Firefox'],
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout: 60000,

@@ -59,11 +59,11 @@ module.exports = function(grunt) {
             options: {
                 port: 9000,
                 hostname: 'localhost',
-                livereload: 35729
+                livereload: 35730
             },
             livereload: {
                 options: {
-                    open: true,
+                    open: false,
                     base: [
                         '.tmp',
                         '<%= yeoman.app %>'
@@ -395,8 +395,16 @@ module.exports = function(grunt) {
                 configFile: 'karma.conf.js',
                 singleRun: true
             }
-        }
-    });
+        },
+    
+		open: {
+			dev: {
+				url: 'http://localhost:<%= connect.options.port %>',
+				app: 'Firefox'
+			}
+		}
+	
+	});
 
 
     grunt.registerTask('serve', function(target) {
@@ -411,6 +419,7 @@ module.exports = function(grunt) {
             'concurrent:server',
             'autoprefixer',
             'connect:livereload',
+			'open:dev', //open chrome instead of default browser
             'watch'
         ]);
     });

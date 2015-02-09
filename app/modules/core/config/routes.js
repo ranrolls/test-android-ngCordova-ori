@@ -1,35 +1,26 @@
-'use strict';
+/* 
+// 
+// You can configure ngRoute as always, but to take advantage of SharedState location
+// feature (i.e. close sidebar on backbutton) you should setup 'reloadOnSearch: false' 
+// in order to avoid unwanted routing.
+// 
 
-/**
- * @ngdoc object
- * @name core.config
- * @requires ng.$stateProvider
- * @requires ng.$urlRouterProvider
- * @description Defines the routes and other config within the core module
- */
-angular
-    .module('core')
-    .config(['$stateProvider',
-        '$urlRouterProvider',
-        function($stateProvider, $urlRouterProvider) {
+var app = angular.module('MobileAngularUiExamples');
 
-            $urlRouterProvider.otherwise('/');
+app.config(['$routeProvider', function($routeProvider){
+  $routeProvider.when('/',              {templateUrl: 'modules/core/views/home.html', reloadOnSearch: false});
+  $routeProvider.when('/scroll',        {templateUrl: 'modules/core/views/scroll.html', reloadOnSearch: false}); 
+  $routeProvider.when('/toggle',        {templateUrl: 'modules/core/views/toggle.html', reloadOnSearch: false}); 
+  $routeProvider.when('/tabs',          {templateUrl: 'modules/core/views/tabs.html', reloadOnSearch: false}); 
+  $routeProvider.when('/accordion',     {templateUrl: 'modules/core/views/accordion.html', reloadOnSearch: false}); 
+  $routeProvider.when('/overlay',       {templateUrl: 'modules/core/views/overlay.html', reloadOnSearch: false}); 
+  $routeProvider.when('/forms',         {templateUrl: 'modules/core/views/forms.html', reloadOnSearch: false});
+  $routeProvider.when('/dropdown',      {templateUrl: 'modules/core/views/dropdown.html', reloadOnSearch: false});
+  $routeProvider.when('/touch',         {templateUrl: 'modules/core/views/touch.html', reloadOnSearch: false});
+  $routeProvider.when('/swipe',         {templateUrl: 'modules/core/views/swipe.html', reloadOnSearch: false});
+  $routeProvider.when('/drag',          {templateUrl: 'modules/core/views/drag.html', reloadOnSearch: false});
+  $routeProvider.when('/drag2',         {templateUrl: 'modules/core/views/drag2.html', reloadOnSearch: false});
+  $routeProvider.when('/carousel',      {templateUrl: 'modules/core/views/carousel.html', reloadOnSearch: false});
+}]);
 
-            /**
-             * @ngdoc event
-             * @name core.config.route
-             * @eventOf core.config
-             * @description
-             *
-             * Define routes and the associated paths
-             *
-             * - When the path is `'/'`, route to home
-             * */
-            $stateProvider
-                .state('home', {
-                    url: '/',
-                    templateUrl: 'modules/core/views/home.html',
-                    controller: 'HomeController'
-                });
-        }
-    ]);
+*/
