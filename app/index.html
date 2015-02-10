@@ -8,9 +8,8 @@
 
         <!-- build:css styles/vendor.css -->
         <!-- injector:bowercss -->
-        <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-hover.css">
         <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-base.css">
-        <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.css">
+        <link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css">
         <!-- endinjector -->
         <!-- endbuild -->
 
@@ -23,7 +22,12 @@
 
     </head>
 
-    <body ng-app="MobileAngularUiExamples" ng-controller="MainController" ui-prevent-touchmove-defaults>
+    <body 
+        ng-app="MobileAngularUiExamples" 
+        ng-controller="MainController" 
+        ui-prevent-touchmove-defaults
+        ng-class="{ ' sidebar-left-in': sidebarLeft, ' sidebar-left-visible': sidebarLeft, ' sidebar-left-v': sidebarLeft  }"
+        >
 
         <!-- Sidebars -->
         <div ng-include="'./modules/core/views/partials/sidebar.html'" 
@@ -33,8 +37,12 @@
         <div ng-include="'./modules/core/views/partials/sidebarRight.html'" 
              class="sidebar sidebar-right"></div>
 
-        <div class="app" ui-swipe-right='Ui.turnOn("uiSidebarLeft")' ui-swipe-left='Ui.turnOff("uiSidebarLeft")'>
-
+        <div class="app" ui-swipe-right="sidebarLeft = true" 
+            ui-swipe-left="sidebarLeft = false"
+            ui-swipe-right='Ui.turnOn("uiSidebarLeft")'
+            ui-swipe-left='Ui.turnOff("uiSidebarLeft")'
+        >
+<!--ui-swipe-right='Ui.turnOn("uiSidebarLeft")'-->
             <!-- Navbars -->
 
             <div class="navbar navbar-app navbar-absolute-top">
@@ -42,7 +50,7 @@
                     Mobile Angular UI
                 </div>
                 <div class="btn-group pull-left">
-                    <div ui-toggle="uiSidebarLeft" class="btn sidebar-toggle">
+                    <div ng-click="sidebarLeft = !sidebarLeft" class="btn sidebar-toggle">
                         <i class="fa fa-bars"></i> Menu
                     </div>
                 </div>
@@ -70,17 +78,16 @@
                     <ng-view></ng-view>
                 </div>
             </div>
-
         </div><!-- ~ .app -->
 
         <div ui-yield-to="modals"></div>
         <!-- /.main -->
         <!-- build:js scripts/vendor.js -->
         <!-- injector:bowerjs -->
-        <script src="lib/jquery/dist/jquery.js"></script>
         <script src="lib/angular/angular.js"></script>
-        <script src="lib/angular-route/angular-route.js"></script>
+        <script src="lib/angular-route/angular-route.min.js"></script>
         <script src="lib/mobile-angular-ui/dist/js/mobile-angular-ui.min.js"></script>
+        <script src="lib/mobile-angular-ui/dist/js/mobile-angular-ui.gestures.js"></script>
         <!-- endinjector -->
         <!-- endbuild -->
 
@@ -97,332 +104,6 @@
         <!-- endinjector -->
         <!-- endbuild -->
 
-<!--        <script src="cordova.js"></script>  -->
-<script>
-/*    
-    'use strict';
-    
-    var app = angular.module('MobileAngularUiExamples', [ 'ngRoute', 'mobile-angular-ui',
-        'mobile-angular-ui.gestures' ]);
-    
-    app.run(function($transform) {
-      window.$transform = $transform;
-    });
-
-    app.config(['$routeProvider', function($routeProvider){
-        $routeProvider.when('/', {templateUrl: 'modules/core/views/home.html'});
-        $routeProvider.when('/scroll', {templateUrl: 'modules/core/views/scroll.html', reloadOnSearch: false});
-        $routeProvider.when('/toggle', {templateUrl: 'modules/core/views/toggle.html', reloadOnSearch: false});
-        $routeProvider.when('/tabs', {templateUrl: 'modules/core/views/tabs.html', reloadOnSearch: false});
-        $routeProvider.when('/accordion', {templateUrl: 'modules/core/views/accordion.html', reloadOnSearch: false});
-        $routeProvider.when('/overlay', {templateUrl: 'modules/core/views/overlay.html', reloadOnSearch: false});
-        $routeProvider.when('/forms', {templateUrl: 'modules/core/views/forms.html', reloadOnSearch: false});
-        $routeProvider.when('/dropdown', {templateUrl: 'modules/core/views/dropdown.html', reloadOnSearch: false});
-        $routeProvider.when('/touch', {templateUrl: 'modules/core/views/touch.html', reloadOnSearch: false});
-        $routeProvider.when('/swipe', {templateUrl: 'modules/core/views/swipe.html', reloadOnSearch: false});
-        $routeProvider.when('/drag', {templateUrl: 'modules/core/views/drag.html', reloadOnSearch: false});
-        $routeProvider.when('/drag2', {templateUrl: 'modules/core/views/drag2.html', reloadOnSearch: false});
-        $routeProvider.when('/carousel', {templateUrl: 'modules/core/views/carousel.html', reloadOnSearch: false});
-        
-    }]);
-
-// 
-    // `$touch example`
-    // 
-
-    app.directive('toucharea', ['$touch', function ($touch) {
-            // Runs during compile
-            return {
-                restrict: 'C',
-                link: function ($scope, elem) {
-                    $scope.touch = null;
-                    $touch.bind(elem, {
-                        start: function (touch) {
-                            $scope.touch = touch;
-                            $scope.$apply();
-                        },
-                        cancel: function (touch) {
-                            $scope.touch = touch;
-                            $scope.$apply();
-                        },
-                        move: function (touch) {
-                            $scope.touch = touch;
-                            $scope.$apply();
-                        },
-                        end: function (touch) {
-                            $scope.touch = touch;
-                            $scope.$apply();
-                        }
-                    });
-                }
-            };
-        }]);
-
-    //
-    // `$drag` example: drag to dismiss
-    //
-    app.directive('dragToDismiss',[ '$drag', '$parse', '$timeout', function ($drag, $parse, $timeout) {
-        return {
-            restrict: 'A',
-            compile: function (elem, attrs) {
-                var dismissFn = $parse(attrs.dragToDismiss);
-                return function (scope, elem) {
-                    var dismiss = false;
-
-                    $drag.bind(elem, {
-                        transform: $drag.TRANSLATE_RIGHT,
-                        move: function (drag) {
-                            if (drag.distanceX >= drag.rect.width / 4) {
-                                dismiss = true;
-                                elem.addClass('dismiss');
-                            } else {
-                                dismiss = false;
-                                elem.removeClass('dismiss');
-                            }
-                        },
-                        cancel: function () {
-                            elem.removeClass('dismiss');
-                        },
-                        end: function (drag) {
-                            if (dismiss) {
-                                elem.addClass('dismitted');
-                                $timeout(function () {
-                                    scope.$apply(function () {
-                                        dismissFn(scope);
-                                    });
-                                }, 300);
-                            } else {
-                                drag.reset();
-                            }
-                        }
-                    });
-                };
-            }
-        };
-    }]);
-
-    //
-    // Another `$drag` usage example: this is how you could create 
-    // a touch enabled "deck of cards" carousel. See `carousel.html` for markup.
-    //
-    app.directive('carousel', function () {
-        return {
-            restrict: 'C',
-            scope: {},
-            controller: function () {
-                this.itemCount = 0;
-                this.activeItem = null;
-
-                this.addItem = function () {
-                    var newId = this.itemCount++;
-                    this.activeItem = this.itemCount === 1 ? newId : this.activeItem;
-                    return newId;
-                };
-
-                this.next = function () {
-                    this.activeItem = this.activeItem || 0;
-                    this.activeItem = this.activeItem === this.itemCount - 1 ? 0 : this.activeItem + 1;
-                };
-
-                this.prev = function () {
-                    this.activeItem = this.activeItem || 0;
-                    this.activeItem = this.activeItem === 0 ? this.itemCount - 1 : this.activeItem - 1;
-                };
-            }
-        };
-    });
-
-    app.directive('carouselItem', ['$drag', function ($drag) {
-        return {
-            restrict: 'C',
-            require: '^carousel',
-            scope: {},
-            transclude: true,
-            template: '<div class="item"><div ng-transclude></div></div>',
-            link: function (scope, elem, attrs, carousel) {
-                scope.carousel = carousel;
-                var id = carousel.addItem();
-
-                var zIndex = function () {
-                    var res = 0;
-                    if (id === carousel.activeItem) {
-                        res = 2000;
-                    } else if (carousel.activeItem < id) {
-                        res = 2000 - (id - carousel.activeItem);
-                    } else {
-                        res = 2000 - (carousel.itemCount - 1 - carousel.activeItem + id);
-                    }
-                    return res;
-                };
-
-                scope.$watch(function () {
-                    return carousel.activeItem;
-                }, function () {
-                    elem[0].style.zIndex = zIndex();
-                });
-
-                $drag.bind(elem, {
-                    //
-                    // This is an example of custom transform function
-                    //
-                    transform: function (element, transform, touch) {
-                        // 
-                        // use translate both as basis for the new transform:
-                        // 
-                        var t = $drag.TRANSLATE_BOTH(element, transform, touch);
-
-                        //
-                        // Add rotation:
-                        //
-                        var Dx = touch.distanceX,
-                                t0 = touch.startTransform,
-                                sign = Dx < 0 ? -1 : 1,
-                                angle = sign * Math.min((Math.abs(Dx) / 700) * 30, 30);
-
-                        t.rotateZ = angle + (Math.round(t0.rotateZ));
-
-                        return t;
-                    },
-                    move: function (drag) {
-                        if (Math.abs(drag.distanceX) >= drag.rect.width / 4) {
-                            elem.addClass('dismiss');
-                        } else {
-                            elem.removeClass('dismiss');
-                        }
-                    },
-                    cancel: function () {
-                        elem.removeClass('dismiss');
-                    },
-                    end: function (drag) {
-                        elem.removeClass('dismiss');
-                        if (Math.abs(drag.distanceX) >= drag.rect.width / 4) {
-                            scope.$apply(function () {
-                                carousel.next();
-                            });
-                        }
-                        drag.reset();
-                    }
-                });
-            }
-        };
-    }]);
-
-    app.directive('dragMe', ['$drag', function ($drag) {
-            return {
-                controller: function ($scope, $element) {
-                    $drag.bind($element,
-                            {
-                                //
-                                // Here you can see how to limit movement 
-                                // to an element
-                                //
-                                transform: $drag.TRANSLATE_INSIDE($element.parent()),
-                                end: function (drag) {
-                                    // go back to initial position
-                                    drag.reset();
-                                }
-                            },
-                    {// release touch when movement is outside bounduaries
-                        sensitiveArea: $element.parent()
-                    }
-                    );
-                }
-            };
-        }]);
-    
-    app.controller('MainController',['$rootScope', '$scope', function ($rootScope, $scope) {
-        $scope.swiped = function (direction) {
-            alert('Swiped ' + direction);
-        };
-
-        // User agent displayed in home page
-        $scope.userAgent = navigator.userAgent;
-
-        // Needed for the loading screen
-        $rootScope.$on('$routeChangeStart', function () {
-            $rootScope.loading = true;
-        });
-
-        $rootScope.$on('$routeChangeSuccess', function () {
-            $rootScope.loading = false;
-        });
-
-        // Fake text i used here and there.
-        $scope.lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel explicabo, aliquid eaque soluta nihil eligendi adipisci error, illum corrupti nam fuga omnis quod quaerat mollitia expedita impedit dolores ipsam. Obcaecati.';
-
-        // 
-        // 'Scroll' screen
-        // 
-        var scrollItems = [];
-
-        for (var i = 1; i <= 100; i++) {
-            scrollItems.push('Item ' + i);
-        }
-
-        $scope.scrollItems = scrollItems;
-
-        $scope.bottomReached = function () {
-            alert('Congrats you scrolled to the end of the list!');
-        };
-
-        // 
-        // Right Sidebar
-        // 
-        $scope.chatUsers = [
-            {name: 'Carlos  Flowers', online: true},
-            {name: 'Byron Taylor', online: true},
-            {name: 'Jana  Terry', online: true},
-            {name: 'Darryl  Stone', online: true},
-            {name: 'Fannie  Carlson', online: true},
-            {name: 'Holly Nguyen', online: true},
-            {name: 'Bill  Chavez', online: true},
-            {name: 'Veronica  Maxwell', online: true},
-            {name: 'Jessica Webster', online: true},
-            {name: 'Jackie  Barton', online: true},
-            {name: 'Crystal Drake', online: false},
-            {name: 'Milton  Dean', online: false},
-            {name: 'Joann Johnston', online: false},
-            {name: 'Cora  Vaughn', online: false},
-            {name: 'Nina  Briggs', online: false},
-            {name: 'Casey Turner', online: false},
-            {name: 'Jimmie  Wilson', online: false},
-            {name: 'Nathaniel Steele', online: false},
-            {name: 'Aubrey  Cole', online: false},
-            {name: 'Donnie  Summers', online: false},
-            {name: 'Kate  Myers', online: false},
-            {name: 'Priscilla Hawkins', online: false},
-            {name: 'Joe Barker', online: false},
-            {name: 'Lee Norman', online: false},
-            {name: 'Ebony Rice', online: false}
-        ];
-
-        //
-        // 'Forms' screen
-        //  
-        $scope.rememberMe = true;
-        $scope.email = 'me@example.com';
-
-        $scope.login = function () {
-            alert('You submitted the login form');
-        };
-
-        // 
-        // 'Drag' screen
-        // 
-        $scope.notices = [];
-
-        for (var j = 0; j < 10; j++) {
-            $scope.notices.push({icon: 'envelope', message: 'Notice ' + (j + 1)});
-        }
-
-        $scope.deleteNotice = function (notice) {
-            var index = $scope.notices.indexOf(notice);
-            if (index > -1) {
-                $scope.notices.splice(index, 1);
-            }
-        };
-    }]);
-*/  
-</script>
+<!--        <script src="cordova.js"></script>      -->
     </body>
 </html>

@@ -14,10 +14,10 @@ module.exports = function(config) {
         // List of files / patterns to load in the browser
         files: [
             <!-- injector:bowerjs -->
-            'app/lib/jquery/dist/jquery.js',
             'app/lib/angular/angular.js',
-            'app/lib/angular-route/angular-route.js',
+            'app/lib/angular-route/angular-route.min.js',
             'app/lib/mobile-angular-ui/dist/js/mobile-angular-ui.min.js',
+            'app/lib/mobile-angular-ui/dist/js/mobile-angular-ui.gestures.js',
             <!-- endinjector -->
 
             'app/js/config.js',
