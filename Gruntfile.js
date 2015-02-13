@@ -154,15 +154,13 @@ module.exports = function(grunt) {
                     'app/lib/jquery/dist/jquery.js',
                     'app/lib/bootstrap/dist/js/bootstrap.js',
                     'app/lib/angular/angular.js',
-                    'app/lib/angular-resource/angular-resource.js',
-                    'app/lib/angular-mocks/angular-mocks.js',
-                    'app/lib/angular-cookies/angular-cookies.js',
-                    'app/lib/angular-sanitize/angular-sanitize.js',
-                    'app/lib/angular-animate/angular-animate.js',
-                    'app/lib/angular-touch/angular-touch.js',
-                    'app/lib/angular-bootstrap/ui-bootstrap.js',
-                    'app/lib/angular-ui-utils/ui-utils.js',
-                    'app/lib/angular-ui-router/release/angular-ui-router.js'
+                    'app/lib/angular-route/angular-route.js',
+                    'app/lib/bower-mobile-angular-ui-1.2/dist/js/mobile-angular-ui.js',
+                    'app/lib/bower-mobile-angular-ui-1.2/dist/js/mobile-angular-ui.gestures.js',
+                    'app/lib/bower-mobile-angular-ui-1.2/dist/js/mobile-angular-ui.core.js',
+                    'app/lib/bower-mobile-angular-ui-1.2/dist/js/mobile-angular-ui.components.js',
+                    'app/lib/bower-mobile-angular-ui-1.2/dist/js/mobile-angular-ui.migrate.js',
+                    'app/lib/fastclick/lib/fastclick.js'
                 ],
                 html5Mode: false,
                 startPage: '/api',
@@ -280,7 +278,7 @@ module.exports = function(grunt) {
         // The following *-min tasks produce minified files in the dist folder
         cssmin: {
             options: {
-                root: '<%= yeoman.app %>/css/**/*.css'
+              //  root: '<%= yeoman.app %>/css/**/*.css'
             }
         },
 
@@ -316,7 +314,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.dist %>',
-                    src: ['*.html', '<%= yeoman.app %>/modules/*/views/*.html'],
+                    src: ['*.html', '<%= yeoman.app %>/modules/*/views/*.html', '<%= yeoman.app %>/modules/*/views/*/*.html'],
                     dest: '<%= yeoman.dist %>'
                 }]
             }
@@ -356,6 +354,7 @@ module.exports = function(grunt) {
                         '.htaccess',
                         'index.html',
                         'modules/*/views/*.html',
+                        'modules/*/views/*/*.html',
                         'img/{,*/}*.{webp}',
                         'fonts/*'
                     ]
@@ -364,6 +363,21 @@ module.exports = function(grunt) {
                     cwd: '.tmp/images',
                     dest: '<%= yeoman.dist %>/img',
                     src: ['generated/*']
+                },{
+//for bootstrap fonts
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>/lib/bootstrap/dist',
+                    src: ['fonts/*.*'],
+                    dest: '<%= yeoman.dist %>'
+                }, {
+
+//for font-awesome
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>/lib/font-awesome',
+                    src: ['fonts/*.*'],
+                    dest: '<%= yeoman.dist %>'
                 }]
             },
             styles: {
@@ -433,8 +447,8 @@ module.exports = function(grunt) {
         'clean:server',
         'concurrent:test',
         'autoprefixer',
-        'connect:test',
-        'karma'
+        'connect:test'
+ //       'karma'
     ]);
 
     grunt.registerTask('docs', [

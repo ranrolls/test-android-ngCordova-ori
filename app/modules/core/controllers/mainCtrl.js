@@ -92,12 +92,12 @@ var app = angular.module('MobileAngularUiExamples');
         $scope.sidebarLeft = false;
         $scope.$watch('sidebarLeft', function() {
             if($scope.sidebarLeft){
-                console.log('sidebar left true');
+                // console.log('sidebar left true');
                 $rootElement.addClass('sidebar-left-visible');
 //                $scope.$apply();
             }else{
                 $rootElement.removeClass('sidebar-left-visible');
-                console.log('sidebar left false');
+                // console.log('sidebar left false');
             }
         });
 

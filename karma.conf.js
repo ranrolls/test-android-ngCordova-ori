@@ -15,9 +15,12 @@ module.exports = function(config) {
         files: [
             <!-- injector:bowerjs -->
             'app/lib/angular/angular.js',
-            'app/lib/angular-route/angular-route.min.js',
-            'app/lib/mobile-angular-ui/dist/js/mobile-angular-ui.min.js',
-            'app/lib/mobile-angular-ui/dist/js/mobile-angular-ui.gestures.js',
+            'app/lib/angular-route/angular-route.js',
+            'app/lib/bower-mobile-angular-ui-1.2/dist/js/mobile-angular-ui.min.js',
+            'app/lib/bower-mobile-angular-ui-1.2/dist/js/mobile-angular-ui.gestures.js',
+            'app/lib/angular-mocks/angular-mocks.js',
+            'app/lib/angular-touch/angular-touch.js',
+            'app/lib/angular-animate/angular-animate.js',
             <!-- endinjector -->
 
             'app/js/config.js',
